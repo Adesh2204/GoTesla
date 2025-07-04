@@ -54,8 +54,24 @@ A beautifully designed **SwiftUI-based prototype** of a Tesla-style mobile appli
 
 ## ▶️ Getting Started
 
-1. **Clone the repository**
+**Clone the repository**
    ```bash
    git clone https://github.com/yourusername/tesla-swiftui-app.git
+
+   ## 🧠 Learnings
+
+- State handling in SwiftUI (`@State`)
+- Randomisation and conditional logic
+- UI design in SwiftUI using VStack, HStack, ZStack
+- Score management and button interaction
+
+---
+
+## 🙌 Credits
+
+Built with ❤️ using SwiftUI by [Adesh Shukla](https://github.com/Adesh2204)
+
+---
+
 
    
