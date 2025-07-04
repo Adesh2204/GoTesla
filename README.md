@@ -6,7 +6,7 @@ A beautifully designed **SwiftUI-based prototype** of a Tesla-style mobile appli
 
 ## 📸 Screenshot
 
-
+![image alt](https://github.com/Adesh2204/GoTesla/blob/faacb0c98f588ea93b2456a5b6863bd0a509e14d/App%20SS/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20-%202025-07-05%20at%2004.47.04.png)
 
 ---
 
