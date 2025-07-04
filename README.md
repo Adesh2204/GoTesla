@@ -52,13 +52,7 @@ A beautifully designed **SwiftUI-based prototype** of a Tesla-style mobile appli
 
 ---
 
-## ▶️ Getting Started
-
-**Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/tesla-swiftui-app.git
-
-   ## 🧠 Learnings
+## 🧠 Learnings
 
 - State handling in SwiftUI (`@State`)
 - Randomisation and conditional logic
@@ -73,5 +67,10 @@ Built with ❤️ using SwiftUI by [Adesh Shukla](https://github.com/Adesh2204)
 
 ---
 
+## ▶️ Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/tesla-swiftui-app.git
 
    
