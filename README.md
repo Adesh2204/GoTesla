@@ -48,7 +48,7 @@ A beautifully designed **SwiftUI-based prototype** of a Tesla-style mobile appli
 
 ---
 
-## 📂 Folder Structure
+## 📂 Project Structure
 
 ---
 
@@ -72,5 +72,11 @@ Built with ❤️ using SwiftUI by [Adesh Shukla](https://github.com/Adesh2204)
 1. **Clone the repository**
    ```bash
    git clone https://github.com/yourusername/tesla-swiftui-app.git
+2. Open in Xcode:
+Open WarGame.xcodeproj
+
+3. Run the app on the simulator or your iOS device
+
+
 
    
