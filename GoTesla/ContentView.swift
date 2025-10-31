@@ -9,11 +9,15 @@
 
 import SwiftUI
 import MapKit
+import Speech
+import AVFoundation
 
 // MARK: - ContentView
 struct ContentView: View {
     @State private var showMediaControlSheet = false
     @State private var showChargingView = false
+    @State private var isListening = false
+    @State private var recognizedText = ""
     
     var body: some View {
         NavigationStack {
@@ -43,7 +47,24 @@ struct ContentView: View {
                     }
                     .padding()
                 }
-                VoiceCommandButton()
+                VoiceCommandButton(isListening: $isListening, recognizedText: $recognizedText)
+                
+                if isListening {
+                    VStack {
+                        Spacer()
+                        Text(recognizedText.isEmpty ? "How may I assist you today?" : recognizedText)
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color.black.opacity(0.85))
+                            )
+                            .padding(.horizontal)
+                            .padding(.bottom, 100)
+                    }
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color("DarkGrey"))
@@ -95,7 +116,7 @@ struct HomeHeader: View {
             HStack(spacing: 16) {
                 Button(action: {}) { GeneralButton(icon: "lock.fill") }
                 Button(action: {}) { GeneralButton(icon: "gear") }
-                Button(action: { showBluetoothAlert = true }) { GeneralButton(icon: "bluetooth") }
+                Button(action: { showBluetoothAlert = true }) { GeneralButton(icon: "antenna.radiowaves.left.and.right") }
             }
         }
         .padding(.top)
@@ -328,19 +349,63 @@ struct ReorderButton: View {
 
 // MARK: - Voice Command Button
 struct VoiceCommandButton: View {
+    @Binding var isListening: Bool
+    @Binding var recognizedText: String
+    @StateObject private var speechRecognizer = SpeechRecognizer()
+    
     var body: some View {
         VStack {
             Spacer()
             HStack {
                 Spacer()
-                Image(systemName: "mic.fill")
-                    .font(.system(size: 24, weight: .semibold))
-                    .frame(width: 64, height: 64)
-                    .background(Color("Green"))
-                    .foregroundColor(Color("DarkGrey"))
-                    .clipShape(Circle())
-                    .padding()
-                    .shadow(radius: 10)
+                Button(action: {
+                    if speechRecognizer.isListening {
+                        speechRecognizer.stopListening()
+                    } else {
+                        speechRecognizer.startListening()
+                    }
+                }) {
+                    Image(systemName: speechRecognizer.isListening ? "mic.circle.fill" : "mic.fill")
+                        .font(.system(size: 24, weight: .semibold))
+                        .frame(width: 64, height: 64)
+                        .background(speechRecognizer.isListening ? Color.red : Color("Green"))
+                        .foregroundColor(Color("DarkGrey"))
+                        .clipShape(Circle())
+                        .shadow(radius: 10)
+                }
+                .padding()
+            }
+        }
+        .onChange(of: speechRecognizer.transcript) { newValue in
+            recognizedText = newValue
+        }
+        .onChange(of: speechRecognizer.isListening) { newValue in
+            isListening = newValue
+            if !newValue {
+                // Keep the last recognized text when stopping
+            } else {
+                // Clear text when starting new recognition
+                recognizedText = ""
+            }
+        }
+    }
+}
+
+extension SFSpeechRecognizer {
+    static func hasAuthorizationToRecognize() async -> Bool {
+        await withCheckedContinuation { continuation in
+            requestAuthorization { status in
+                continuation.resume(returning: status == .authorized)
+            }
+        }
+    }
+}
+
+extension AVAudioSession {
+    func hasPermissionToRecord() async -> Bool {
+        await withCheckedContinuation { continuation in
+            requestRecordPermission { authorized in
+                continuation.resume(returning: authorized)
             }
         }
     }
