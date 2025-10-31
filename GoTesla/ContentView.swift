@@ -74,6 +74,8 @@ struct ContentView: View {
 
 // MARK: - Home Header
 struct HomeHeader: View {
+    @State private var showBluetoothAlert = false
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 10) {
@@ -93,9 +95,15 @@ struct HomeHeader: View {
             HStack(spacing: 16) {
                 Button(action: {}) { GeneralButton(icon: "lock.fill") }
                 Button(action: {}) { GeneralButton(icon: "gear") }
+                Button(action: { showBluetoothAlert = true }) { GeneralButton(icon: "bluetooth") }
             }
         }
         .padding(.top)
+        .alert("Bluetooth", isPresented: $showBluetoothAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("Bluetooth is on")
+        }
     }
 }
 
